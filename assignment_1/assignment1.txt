@@ -1,0 +1,47 @@
+assignment1.txt
+2781583
+
+
+    I created a Python dictionary to represent the graph from the figure. This dictionary variable was named dict_graph and it is 
+composed of two keys, namely 'nodes' and 'edges'.
+    On the one hand, the dictionary key 'nodes' comprises the nodes of the graph and, therefore, will have the set of nodes 
+{a, b, c, d, e, f} as its values.
+    On the other hand, the key 'edges' comprises the edges of the graph responsible for establishing the relations between the graph's nodes,
+and, therefore, will have the set of edges { {'a', 'b'}, {'b','c'}, {'b', 'd'}, {'c', 'f'}, {'c', 'e'}, {'c', 'd'} } as its values. 
+Noteworthy to mention that as we are dealing with an undirected graph, every edge disconsiders any sense of direction, treats both end 
+nodes samely and, thus, is represented as a set.
+
+
+
+
+First I created a variable called 'adjacency matrix' which is a matrix object from the Numpy library. Then, I populated each entry [p, i]
+where p represents the index of the line and i the index of the columns of this matrix with 0 or 1. The entry [p, i] will be populated with 0 
+if there is no connection in the graph between nodes p and i. Otherwise, that is, if there is an edge responsible for establishing a 
+connection between nodes p and i, the entry [p, i] will assume the value of 1. The examples of the nodes p and i will assume every of 
+this graph's nodes {a, b, c, d, e, f}. For reasons of understanding, the matrix was built following the defined order, that is, 
+the lines and columns follow the order: 0 = a, 1 = b, 2 = c, 3 = d, 4 = e, 5 = f.
+
+
+
+
+To begin with, I finished the methods of the Tree class 'add' and 'search' as well as its '_search' and '_add' private methods. 
+A new node will be added to the tree as a left child if its associated value is lower than its parent's, or it will be added as a 
+right child if its added value is greater than its parent's. If the value of the node trying to be added is the same as its parent, 
+it means that there is already a node with the same value present in the tree, so its addition makes no sense. 
+Finally, the function will return True if the node was successfully added to the tree or False if the addition attempt was unsuccessful.
+
+Secondly, in the process of searching for a node in the tree, it will be found immediately if its associated value is equal to the root's.
+If it is smaller and the node where the search is in a given recursion (starting at the root) has a left child, the function will be 
+called again with the difference that now the left child will be the new node where the search will continue its path.
+If it is greater and the node where the search is in a given recursion (starting at the root) has a right child, the function will be 
+called again with the difference that now the right child will be the new node where the search will continue its path.
+Finally, if the search goes all the way through the tree and the current node is a leaf, obviously, without children, and the target node
+in the search has not been found, it is concluded that the node is simply not present in the tree.
+
+Finally, in order to test the algorithm, I added 20 nodes to the tree each with random values from 0 to 100 (I took into account the 
+possible cases of generating the same number, hence the while loop that will be active while the tree does not have the 20 nodes required). 
+This addition was confirmed with the subsequent visualization of the tree, showing each value of every node and its depth in the tree, 
+as well as using the method 'search' that printed a success message (specified in the '_search' method) if the node was found
+in the tree, or failure (also specified from the '_search' method) if the node is not present in the tree.
+
+

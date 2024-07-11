@@ -1,0 +1,50 @@
+assignment2.txt
+2781583
+[0, 4, 8]
+[10, 14, 18]
+7
+
+
+We are now dealing with two different algorithms for the pursuiteness of a goal-state. Regarding the Breath-First Search, we can see that 
+this algorithm is based on the data structure of a queue following the FIFO (first in, first out) paradigma. That is confirmed by the 
+construction of the fringe, which is explored by the command 'popleft', meaning that on the node adding process into the fringe, they 
+will be evaluated whether they represent a goal-state or not from the first added node to the last, and if they are not they are removed 
+from the queue.
+
+Onwards, on the Depth-First Search, we can see that this algorithm is based on the data structure of a stack following the LIFO 
+(last in, first out) paradigma. That is confirmed by the construction of the fringe, which is explored by the command 'pop' without any 
+argument passed (resulting on the removal from the stack of the element indexed -1, that means the last one), meaning that on the node 
+adding process into the fringe, they will be evaluated whether they represent a goal-state or not from the last added node to the first, and 
+if they are not they are removed from the stack.
+
+
+[4, 0, 7]
+[16, 19, 18]
+
+
+Individually, changing the order of the cards in our hand, i.e. inverting the order, should have no influence on the algorithm running 
+time and the amount of generated nodes, as they will still have to do the same search path and therefore generate the same number of nodes 
+to evaluate in finding the best move to make towards a goal-state. Thus, the order of addition of nodes on the fringe of the algorithm does 
+not matter in the overall performance, only the size of the hand.
+
+On the other hand, choosing depth-first search over breadth-first search would have a major impact on the algorithm execution time 
+and on the generated nodes, because, recognizing that our goal nodes will certainly be in the leaves of the tree (last depth of the search), 
+depth-first search will be faster in reaching these potential solution nodes and will not need to generate and evaluate as many nodes as 
+breadth-first search would.
+
+Combined, as explained, the best decision to make is to choose depth-first search instead of breath-first search as it will be much more 
+spacewise and timewise efficient to bring up a solution, regardless of the order of the cards in our hand..
+
+
+
+
+Breadth-first search will never be faster than depth-first search on finding a solution because of the way this card game is 
+rendered. In the Breadth-first search algorithm that uses the queue data structure (FIFO) in the evaluation of goal-states, each node is 
+evaluated from the first to the last according to its order of addition to the queue, and, knowing that the solution to this problem has 
+for sure to be in one of the leaves of the representative tree (since it is a card game scheduled for a sequence of tricks), this type of 
+search is more inefficient because it goes through all the depths of the tree before the last one in order to find the possible solutions 
+there. Contrariwise, the Depth-First search algorithm uses a stack as its fringe data structure (LIFO), which means that the last nodes of 
+the tree (leaves) are the first ones to be evaluated (since they were the last ones to be added to the stack), resulting in a time saving 
+as the algorithm can focus on potential solutions right away and does not have to go all the way to get there.
+
+

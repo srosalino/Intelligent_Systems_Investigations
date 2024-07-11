@@ -1,0 +1,37 @@
+assignment3.txt
+2781583
+[ 7  4  9 11 13]
+[ 5  2 12 15 18]
+ 
+
+The Depth First Search algorithm expands to the left child, increasing in depth, whenever possible, that is, it is relatively efficient 
+due to the fact that the goal-states are always in the leaves of the problem tree, therefore, time is saved in relation to the Breadth First Search 
+algorithm, because we will be less distant from the solution faster and therefore there is no need to expand as many nodes as in Breadth 
+First Search.
+
+The Breadth First Search algorithm for this problem is inefficient because it takes longer for the node expansion process to reach the leaves 
+of the tree representing the problem where the potential solutions are found and, in this way, we are forced to expand many nodes distant 
+from the goal-states.
+
+Finally, regarding the Greedy Best First Search algorithm, this is a more "educated" search, using the referenced heuristic 
+(minimize the function h(n) = points required to win - points scored), we will expand only the single node that is the least distant from 
+the solution and therefore with the smallest heuristic value.
+
+
+ 
+
+The Greedy Best First Search algorithm chooses the next node to be expanded based on the heuristic identified by the function 
+h(n) = points required to win - points scored. In other words, this algorithm will expand only one node at a time, and that same node will 
+be responsible for, within the possible nodes, minimizing the value of the heuristic, without taking into account the associated cost of the 
+path to be taken towards the solution.
+
+The A star search algorithm chooses the next node to be expanded based on the node that minimizes the heuristic referenced by the new
+function s(n) = points needed for victory - points obtained + cost of the path so far. In other words, this algorithm will expand only one 
+node per interation, which, within the possible nodes, is responsible for minimizing the values resulting from this heuristic.
+
+That being said, the solutions obviously differ because the A star search algorithm combines in the decision process of the next node to be 
+expanded the heuristic present in the Greedy Best First Search algorithm (points needed for victory - points scored) with the cost of the 
+path taken so far. We can see from the outputs obtained that, despite the A star search algorithm having generated more nodes than 
+Greedy Best First Search (17 against 5), the A star search had a much lower cost (90 against 159).
+
+

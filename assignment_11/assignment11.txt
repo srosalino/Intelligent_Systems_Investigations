@@ -1,0 +1,146 @@
+assignment11.txt
+
+
+value = self.heuristic(next_state)
+
+#Add player 1's points to feature set
+p1_points = state.get_points(1)
+
+# Add player 2's points to feature set
+p2_points = state.get_points(2)
+
+# Add player 1's pending points to feature set
+p1_pending_points = state.get_pending_points(1)
+
+# Add plauer 2's pending points to feature set
+p2_pending_points = state.get_pending_points(2)
+
+# Get trump suit
+trump_suit = state.get_trump_suit()
+
+# Add phase to feature set
+phase = state.get_phase()
+
+# Add stock size to feature set
+stock_size = state.get_stock_size()
+
+# Add leader to feature set
+leader = state.leader()
+
+# Add whose turn it is to feature set
+whose_turn = state.whose_turn()
+
+# Add opponent's played card to feature set
+opponents_played_card = state.get_opponents_played_card()
+
+
+
+
+Results:
+    bot <bots.rand.rand.Bot object at 0x000001A8F5EFD930>: 29 points
+    bot <bots.bully.bully.Bot object at 0x000001A8F5EFC280>: 39 points
+    bot <bots.ml.ml.Bot object at 0x000001A8F5EFDA20>: 76 points
+    
+As it is noticeble, after generating a dataset containing training games as instances and using the Rand bot to learn by playing against itself on those 
+training instances, the the ML bot was able to beat both Bully and Rand by a huge margin on a 30 repeated round-robin tournament.
+
+
+
+
+Results:
+    bot <bots.rand.rand.Bot object at 0x000001A8F5FC8610>: 18 points
+    bot <bots.bully.bully.Bot object at 0x000001A8F5FC9AE0>: 51 points
+    bot <bots.ml.ml.Bot object at 0x000001A8F5FC8760>: 91 points
+
+After retraining the Ml model, now generating a new dataset of training game samples that will be used to provide learning about the game of Schnapsen 
+using Rdeep, I ran a round-robin tournament again, with 30 repetitions, opposing Rand vs Bully vs Ml. The Ml bot was again the winner, further increasing
+its previous advantage (when using the Rand bot as its learning base) over the two remaining bots. This is no suprise because, as seen in previous 
+assignments, Rdeep is strategically superior to Rand.
+
+
+
+
+Results:
+    bot <bots.rand.rand.Bot object at 0x000001A8F5FC8460>: 26 points
+    bot <bots.bully.bully.Bot object at 0x000001A8F5FCA500>: 45 points
+    bot <bots.ml.ml.Bot object at 0x000001A8F5FCADA0>: 86 points
+
+To begin with, I generated a new dataset composed of instances representing games of Schnapsen, and then retrained the ML model, using the Alphabeta bot 
+(starting in phase 2) in the training and learning process. After holding a round-robin tournament between the bots Rand vs Bully vs ML, I was able to 
+conclude that the ML model was able to beat once again, and in a convincing way, the remaining two players. Again, nothing too surprising, since, as seen 
+in previous assignments, the Alphabeta bot has a superior game strength compared to Rand and Bully. It should be noted that, even winning with a great 
+margin, the ML model based on Alphabeta did not show better results than when based on Rdeep in the tournament held, scoring 5 points less (91 to 86).
+
+
+
+
+Results:
+    bot ML - Rand: 44 points
+    bot ML - Rdeep: 47 points
+    bot ML - Alphabeta: 59 points
+
+To begin with, I created three variables, corresponding respectively to the model that observed Rand players, the one that observed Rdeep players, and 
+the one that observed Alphabeta players. After performing an experiment consisting of a round-robin tournament between the three different ML models 
+with 30 repetitions, the results are visible in the output. The Alphabeta observed model came up with the win (scoring 59 points), followed by the model 
+that carried out its learning according to Rdeep (scoring 47 points), and in last place was the model that carried out its learning based on Rand players
+(scoring 44 points). The results are logical according to the game strength of each bot already known, the Alphabeta bot is the strongest among the 
+three, followed by Rdeep, which is is stronger than the Rand bot.
+
+
+
+
+Results:
+    bot ML - Rand: 31 points
+    bot ML - Rdeep: 45 points
+    bot ML - Alphabeta: 61 points
+
+I began by adding a feature called "feature_trump_suit". That feature is meant to store the total number of trump suit cards in the playing bot's hand.
+That seemed a promising idea, since, strategy apart, the number of trump suit cards in a player's hand throughout the entire game is usually a meaningful
+indicator of the player's chances on winning more tricks, and therefore collecting more points to achieve victory. 
+
+The code I used to build my feature was the following:
+
+    # Add the number of trump suit cards
+    feature_trump_suit = 0
+    hand = state.hand()
+    for card in hand:
+        if util.get_suit(card) == trump_suit:
+            feature_trump_suit += 1
+    
+    # Adding my new feature to the feature set
+    feature_set.append(feature_trump_suit)
+
+Finally, I re-executed the last round-robin tournament between the model that observed Rand players, the one that observed Rdeep players, and 
+the one that observed Alphabeta players. My improvements on the new feature were added upon the Alphabeta version of the ML bot. As it visible in the 
+output, the bot ML - Alphabeta won again, and my new added feature turned out to be an improvement on the bot's play strength, since it increased its
+victory margin by scoring 61 points (+2 compared to the last tournament), again by repeating the tournament 30 times.
+
+
+
+
+Results:
+    bot ML - Rand: 38 points
+    bot ML - Rdeep: 48 points
+    bot ML - Alphabeta: 62 points
+
+I started by adding a new feature combining the player 1 pending points and the player 2 pending points by their difference. That new feature addition 
+seems a good idea because, as before, in despite of having the pending points (points left to secure victory) of both player 1 and player 2, the currently
+playing bot might have been mislead, since, even though one player may have a low value of pending points, the opponent may have an even lower value of 
+those, making the bot make a compromised and poor move. When combined, by their difference, the playing bot will now possess a more meaningful and 
+reliable access to its truly closeness to a winning situation.
+    
+The code I used to build my new combined feature was the following:
+
+    # Add the difference of the pending points between the two players
+    difference_pending_points = p1_pending_points - p2_pending_points
+
+    # Adding my new combined feature to the feature set
+    feature_set.append(difference_pending_points)
+
+Finally, I re-executed the last round-robin tournament between the model that observed Rand players, the one that observed Rdeep players, and 
+the one that observed Alphabeta players. All my improvements (the single feature addition and the combined feature addition) were added upon the Alphabeta 
+version of the ML bot. As it visible in the output, the bot ML - Alphabeta won again, and my recently added combined feature turned out to be an 
+improvement (a very little one, but still) on the bot's performance, since it increased its victory margin by scoring 62 points (+1 compared to the last 
+tournament). The tournament was, once more, repeated 30 times.
+
+

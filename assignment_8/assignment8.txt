@@ -1,0 +1,41 @@
+assignment8.txt
+def computeJPD(l,d,b,randomCards):
+
+    positives = 0
+    total_number_of_cards = len(randomCards)
+    
+    for card in randomCards:
+        if card[1] is l and card[2] is d and card[3] is b:
+            positives += 1
+
+    jointProbability = positives / total_number_of_cards
+
+    return(jointProbability)
+
+def bayes_theorem(p_a, p_b, p_ba):
+    #please compute p_ab
+    p_ab = (p_ba * p_a) / p_b
+    return(p_ab)
+
+
+
+Interpreting what I was asked, I am asked to calculate the probability that, when drawing a card from a random set of cards and given it is a LowCard, it 
+is a BlackWedding card. Mathematically speaking this means P(b | l), where b is the event that the card is a BlackWedding and l is the event that the card 
+is a LowCard.
+
+To begin with, applying Bayes' theorem, this probability is equivalent to the following expression: ( P(l | b) * P(b) ) / P(l) ). Now, with respect to 
+the portion P(l | b), this is redundant, since, knowing that the card is a BlackWedding, the card will be a LowCard for sure, having, therefore a 
+probability of 1. We are then left with the expression P(b) / P(l).
+
+I will now pursuit the result P(b). Using the computeJPD function, P(b) is given by the sum of the results of this function for all combinations
+of arguments where the argument b is assigned to True. It should be noted that it is not necessary to make this sum exhaustively since, for the 
+cases of interest in which b is true, the argument l will also always be true, leading to the sum of just two situations.
+
+Secondly, on the looking for the result of P(l), regarding computeJPD function, the argument l will always be True, however, this does not allow us to
+infer anything about the remaining two arguments, therefore, I created a special procedure in the previous cell, which will add interactively all the 
+probability outputs obtained by the computeJPD function of all possible combinations of the both possible boolean values that the arguments d and b can 
+assume, always having the argument l (LowCard) set to True.
+
+I was finally able to calculate the required probability, which I derived to be mathematically equivalent, in the context of this problem, to P(b) / P(l).
+
+

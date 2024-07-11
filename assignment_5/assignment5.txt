@@ -1,0 +1,48 @@
+assignment5.txt
+
+
+The bot Rand, represented by player 1 on the previous match up, sets its playstyle on the implementation that follows the simple heuristic of gathering 
+all the legal moves and playing randomly among those moves.
+However, the bot represented by player 2 on the previous match up, sets its playstyle on an implementation following the Minimax algorithm.
+Moreover, its heuristic will assign an heuristic value to every state, ranging from -1 to 1, meaning that -1 is an absolute certain victory for player
+2 and 1 stands for an absolute certain victory for player 1. Notheworthy to mention that, every value between that interval represents an estimation for 
+the chances of victory of both players (assessing the "goodness" of every state to both players 1 and 2). Having made this heuristical assignment to 
+every possible state, the players will then pick the states that appear to be the most promising in order to achieve victory based on the move quality
+estimation calculated by the heuristic function present on Minimax's implementation.  
+
+
+
+
+By decreasing the search depth performed by the Minimax bot to a value of 2, I was able to conclude that even with this lower amount of look-aheads,
+this bot was able to beat Rand. The same is no longer true for the match up between Rdeep and Minimax. In this game, the amount of 2 look-aheads proved 
+to be too low and Rdeep ended up winning. I then decided to increase the amount of look-aheads on the Minimax bot to the number of total cards that both 
+players will have in their hands on phase 2 of the Schnapsen game, (5 cards for each player meaning 10 cards in total), and the results were quite 
+different. The Minimax bot defeated Rand and Rdeep. This outcome is largely due to the strategic superiority of Minimax, since, when performing in a 
+situation of perfect information (phase 2), this bot is able to effectively find a path to victory if such scenario is possible, whereas the other two 
+bots base their playstyles on probabilities (Rand as mentioned in previous tasks plays in a completely random way and Rdeep as mentioned in previous 
+assignments bases its playstyle on the PIMS paradigm).
+Finally, in order to empirically confirm the emerging hypothesis that the minimum number of look-aheads for Minimax to operate with its full prediction 
+capacity (intuitively 10 since it is the total number of cards still yet to be played as soon as phase 2 of the game starts), I decided to increase 
+Minimax's search depth to 20 and the results were the same as with the 10 search depth level, as Minimax secured victories over Rand and Ddeep.
+
+
+
+
+if maximizing(state):  # we are in the Maximize part of the algorithm
+                if value > best_value:
+                    best_value = value
+                    best_move = move
+            else:      # we are in the Minimize part of the algorithm
+                if value < best_value:
+                    best_value = value
+                    best_move = move
+
+        return best_value, best_move
+
+
+
+
+if alpha >= beta:
+    break
+
+

@@ -1,0 +1,109 @@
+assignment4.txt
+
+
+Knowing the algorithms behind the Rand and Bully bots, and knowing that the Bully bot has beated Rand, I then proceeded to investigate the course of the 
+games opposing Rand to the new bot Rdeep and the head-to-head between Bully and Rdeep.
+In the first matchup between Rand and Rdeep, 10 games were played, and we can conclude that Rdeep won in a sweeping manner.
+In the second matchup between Bully and Rdeep, I played 10 games again, and, after observing the results, I concluded that Rdeep 
+has won again, however, not so comfortably compared to the match against Rand.
+Considering the luck factor and the different strategies adopted by these 3 bots, these results are not surprising, leading to the assumption that 
+the strongest might be Rdeep, followed by Bully, and finally the weakest bot Rand.
+
+
+
+
+Moving on to the round-robin tournament, the previously suspected thoery have empirically happen. 30 games were played, and the results obtained were 
+the following: first place for the Rdeep bot, second place for the Bully bot and third place for the Rand bot. The obtained results suggest the 
+confirmation of the main idea that the strongest bot is Rdeep, the second strongest bot is Bully and the weakest bot is Rand.
+This hierarchy exists due to the different strategies adopted by each of the bots, the Rand bot could be the weakest one due to the completely uninformed 
+stategy it practices (within the legal movements it always plays randomly). The Bully bot has the potential to be stronger than the previous one as it 
+applies a perhaps stragically non-ideal plan and therefore highly questionable in the long run but nevertheless more informed and thoughtful than 
+Rand (will be explained in detail in task 3).
+Finally, the Rdeep bot, has the potential of outperforming the previous ones, as it puts into practice an already quite educated and complex strategy 
+based on probabilities (Perfect Information Monte Carlo Sampling).
+
+
+
+
+The Bully bot has a deterministic stategical behavior. If it is its turn to play, Bully will firstly look for trump cards in its hand and play the first 
+one it finds. If it does not find any card belonging to the trump suit, Bully will simply play the card with the highest rank available in its hand. In 
+case it is not its turn to play, and the opponent has made the first move on the current trick, Bully will play the first card it finds in its hand that 
+matches the suit of the card played by the opponent. Again, if this condition is not possible to satisfy, Bully will play the card with the highest rank 
+available. 
+To evaluate a card's rank, the modulus operator (%) is used, responsible for providing the remainder of the division of the index of 
+each card by 5. For example, to evaluate the rank of the card indexed as 18, applying the modulus operator on the expression 18 % 5, we obtain the 
+result of 3 (mathematically speaking 5 * 3 = 15 and from 15 there is still 3 units to arrive at the numerator of the division 18), making it possible to 
+conclude that the evaluated card is on the 3rd column of the index matrix and thus has rank 3. All the cards in the same column of the index matrix will 
+have the same rank value. The modulus operator will always be the index of the card over 5 because there are 5 different rankings of cards.
+The algorithm runs through all the available cards, evaluates their ranks, detects possible ranking improvements by finding lower rankings since the 
+matrix is sorted columnwise from the most valuable cards to the weakest and then chooses the best move based on that.
+
+
+
+
+The Hill Climbing algorithm would not work in this situation because it is only prepared to store only one heuristic that tries to improve locally 
+without being sure of being the optimal solution, being therefore impossible because in this problem we would have two heuristics to consider (ratio of 
+points of each player over the total points already played so far).
+After several empirical experiments conducted so far in the project I have a probable hypothesis that bot Rdeep is stronger than Rand because after a
+considerable number of executions Rdeep consistently won. However, in order to scientifically prove this hypothesis, it would be necessary to carry out 
+games between the two bots exhaustively, based on the fact that statistically, the greater the number of experiences, the smaller the impact of the luck 
+effect and, therefore, the results converge to the truth on which of the bots is strategically superior.
+
+
+
+
+def get_move(self, state):
+    # type: (State) -> tuple[int, int]
+        
+        # Function comment begin
+
+        Function that gets called every turn. This is where to implement the strategies.
+        Be sure to make a legal move. Illegal moves, like giving an index of a card you
+        don't own or proposing an illegal mariage, will lose you the game.
+        TODO: This bot will obey to the following play options ordered by priority:
+                1) Play a card of the spades suit (the first found)
+                2) Play a trump suit card (the first found)
+                3) Play the highest rank card available
+        :param State state: An object representing the gamestate. This includes a link to
+            the states of all the cards, the trick and the points.
+        :return: A tuple of integers or a tuple of an integer and None,
+            indicating a move; the first indicates the card played in the trick, the second a
+            potential spouse.
+        
+        # Function comment end
+        
+        #All legal moves
+        moves = state.moves()
+        chosen_move = moves[0]
+
+        #This bot will always firstly try to play spades, it will play the first spades card it finds on its hand
+        for index, move in enumerate(moves):
+            if move[0] is not None and 8 <= move[0] <= 11:
+                return move
+
+
+        #If playing spades is not a possibility the bot will try to play the first trump suit card it finds on its hand
+        moves_trump_suit = []
+
+        #Get all trump suit moves available
+        for index, move in enumerate(moves):
+
+            if move[0] is not None and Deck.get_suit(move[0]) == state.get_trump_suit():
+                moves_trump_suit.append(move)
+
+        if len(moves_trump_suit) > 0:
+            chosen_move = moves_trump_suit[0]
+            return chosen_move
+
+        #As a last resort the bot will play the highest rank available, of any suit
+        for index, move in enumerate(moves):
+            if move[0] is not None and move[0] % 5 <= chosen_move[0] % 5:
+                chosen_move = move
+        return chosen_move
+
+The bot I built called Mybot was based on the strategy defined in the comment of the get_move function (playing the first card found of the suit of 
+spades as the first priority, followed by playing the first card found in the hand belonging to the trump suit and finally if none of the previous 
+conditions are possible to satisfy, playing the card with the highest rank available) was able to beat Rand by a comfortable margin 
+(13 against 4 in the first game played).
+
+

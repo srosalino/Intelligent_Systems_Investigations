@@ -1,0 +1,27 @@
+assignment6.txt
+
+
+My manual calculations results match the code output. This means that the constructed Knowledge Base has two models. Meaning that the fist variable 
+combination assignment of A = True, B = True, C = True and the second combination of A = False, B = True, C = True make all the clauses evaluate
+to true, and thus, they are called models of the Knowledge Base. As we found at least one model (in this case we even found two), this Knowledge Base
+is considered satisfiable.
+
+
+
+
+Since the two models of the Knowledge Base are (A = True, B = True, C = True, D = True) and (A = True, B = False, C = True, D = True), I do notice a 
+pattern that leads to the conclusion that the Knowledge Base entails the formula (A & C & D). That tells us an important insight, that is, whichever
+variable assignment combinations that make the Knowledge Base evaluate to true (models), also make the formula (A & C & D) evaluate to true, regardless
+of the value assigned to the variable B. That is confirmed by the two models of the Knowledge Base mentioned at the begining, where the value of B is 
+irrelevant as long as the formula (A & C & D) evaluates to true. 
+
+
+
+
+My goal was to prove by refutation whether the Knowledge Base entailed the formula (A & C & D) or not. Since all the Knowledge Base formulas were 
+already in CNF, I only had to convert the right-side formula (A & C & D) of the entailment to CNF, however, since it was already in CNF, no calculations
+were required. Secondly, I proceeded to add the negation of the right-side formula (A & C & D) of the entailment (already in CNF) to the Knowledge Base. 
+By applying the SAT solver directly, the results showed that the Knowledge Base is now unsatisfiable, and thus, I have just proved, by refutation, 
+that the Knowledge Base indeed entails the formula (A & C & D).
+
+

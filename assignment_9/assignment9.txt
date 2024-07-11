@@ -1,0 +1,107 @@
+assignment9.txt
+
+
+# Line 101: probability = ((u - pc) / u) * ((u-1 - pc) / (u-1)) * ((u-2 - pc) / (u-2)) * ((u-3 - pc) / (u-3)) * ((u-4 - pc) / (u-4))
+
+# Line 107: maxProbability = probability
+			chosen_move = move
+				
+
+
+
+# Line 97: probability = ((u - pc) / u) * ((u-1 - pc) / (u-1)) * ((u-2 - pc) / (u-2)) * ((u-3 - pc) / (u-3)) * ((u-4 - pc) / (u-4))
+
+# Line 108: utility = probability / points
+
+# Line 115: maxUtility = utility
+			chosen_move = move
+
+
+
+
+In order to obtain statistically significant results, that is, close to the true playing strength of each bot and removing as much as possible the impact 
+of luck, I held a round-robin tournament between 5 bots (Bully vs Kbbot vs Probability vs Rand vs Rdeep) with 70 repetitions performed (700 games). 
+By observing the results, I concluded that the Probability bot had a relatively poor performance, being the third worst bot. This bot only scored more 
+points than Rand and Kkbot, ranking below Bully and Rdeep in the final ranking.
+
+
+
+
+In order to obtain statistically significant results, that is, close to the true playing strength of each bot and removing as much as possible the impact 
+of luck, I now held a round-robin tournament between 6 bots (Bully vs Kbbot vs Probability vs Rand vs Rdeep vs Utility) with 70 repetitions performed 
+(1050 games in total). By observing the results, I concluded that the performance of both Probability and Utility was mediocre. The Probability bot
+was already analysed in previous tasks, but when it comes to the newly introduced Utility bot, which is an improved version of the Probability bot that
+takes into account the utility concept of a move (good-quality probability / risk of losing that card), the results were disappointing.
+Although modifications were made, the Utility bot showed little improvements compared to Probability, scoring a tiny margin of just more 9 points. 
+On the overall, both Probability and Utility performed better than just Rand and Kbbot, being outperformed by Bully and Rdeep.
+
+
+
+
+Since the Utility bot is an improved version of the Probability bot for the reasons mentioned in the previous tasks, from my perspective, in order to 
+enhance the performance improvements, it makes more sense to improve the Utility bot.
+
+As far as this bot is concerned, when it's our turn to make the first move of a trick in the game of Schnapsen (on phase 1), this bot already has a 
+defined plan. This plan consists on playing the move that has the highest utility value, that is, the card whose quotient between the probability of the 
+opponent having a problematic card and the points involved in a potential loss is the highest possible. It could be said that this strategic plan is 
+questionable in terms of its effectiveness since the results of this bot throughout the tournaments held were frankly mediocre. Notwithstanding, it is 
+undoubtedly better to have a plan, even though it is bad, than not to have one at all.
+
+However, for situations where we are not the ones making the first move on a Schnapsen trick on phase 1 (which will obviously be quite frequent), and 
+therefore we must respond to a move made by an opponent, this bot played randomly. In order to make this bot more complete, it seemed obvious to me that 
+this area of behaviour in the Utility bot had to be improved and that's where I intervened.
+
+The course of decision-making that I defined in case we must respond to an opponent's move on the phase 1 of the game was the following:
+
+Priority number 1) Apply the "Problematic Card" strategy on our opponent. That is, we will play, if possible, a card of the same suit as the card played 
+by the opponent, but with a higher rank. We will play the first card found in our hand that meets this criterion.
+
+Priority number 2) If priority number 1 is impossible to execute, we will play the first card found in our hand that is of the trump suit.
+
+Priority number 3) If neither priority 1 nor priority 2 are executable, the bot will simply play a random move.
+
+The code I produced for all of that was the following:
+
+# If it is not my turn, the following will be executed as my idea
+		if(state.whose_turn() != state.leader()):		
+
+			# Check whether the opponent has made a legal move
+			if state.get_opponents_played_card() is not None:
+
+				# Initializing the lists that are going to store, one the first one, the problematic cards we possess towards our opponent,
+				# that means, the cards of the same suit as the played card but with higher rank, and on the second one, the cards we possess 
+				# of the trump suit that will come in handy later on 
+				problematic_cards_for_the_opponent = []
+				moves_trump_suit = []
+
+				# Appending the cards on our hand that match the problematic card condition stated above into the first list
+				for index, move in enumerate(moves):
+					if move[0] is not None and Deck.get_suit(move[0]) == Deck.get_suit(state.get_opponents_played_card()) and Deck.get_rank(move[0]) > Deck.get_rank(state.get_opponents_played_card()):
+						problematic_cards_for_the_opponent.append(move)
+
+				# If there are any moves matching the condition above we play the first one to be found
+				if len(problematic_cards_for_the_opponent) > 0:
+					chosen_move = problematic_cards_for_the_opponent[0]
+					return chosen_move
+
+				# If the problematic card strategy is not possible to execute, we will now append all the moves matching the trump suit
+				# into the second list 
+			for index, move in enumerate(moves):
+				if move[0] is not None and Deck.get_suit(move[0]) == state.get_trump_suit():
+					moves_trump_suit.append(move)
+
+			# If there are any moves matching the above condition we will play the first one to be found
+			if len(moves_trump_suit) > 0:
+				chosen_move = moves_trump_suit[0]
+				return chosen_move
+
+			# In case it is, firstly, impossible to apply the problematic card strategy and, secondly, impossible to play a trump suit card
+			# this bot will simply play randomly
+			chosen_move = random.choice(moves)
+			return chosen_move
+
+Finally, regarding the results, unfortunately, these improvements did not have an effect, at least in the experiment I carried out. Possibly, due to the 
+effect of luck and randomness, the Utility bot ended up being ranked fourth among the six players scoring 254 points, being curiously behind the 
+Probability bot with 258 points scored.
+
+

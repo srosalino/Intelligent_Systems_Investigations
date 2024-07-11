@@ -1,0 +1,47 @@
+assignment10.txt
+
+
+To calculate the proportion of the label classes (ham and spam) on the dataset, I used the pandas function "value_counts" to count how many times in
+total each label occured, divided by the total number of instances in the dataset, and that result multiplied by 100, so that I could get the relative
+frequency of each label in percentage format.
+When it comes to the results, approximately 86.6% were labelled as ham and approximately 13.4% were labelled as spam.
+
+
+
+
+The accuracy evaluation metric has showed manifestly high results. It is important to remember that accuracy is calculated as the percentage of correct 
+predictions of the model in relation to the target class effectively assumed in each instance of the test set. However, this evaluation metric will not 
+be the most appropriate for the dataset under study, because, as described in the documentation, this metric was designed to act on multiclass 
+classification problems.
+
+In order to obtain a more adequate and realistic perspective of the performance that our model presented with respect to the given dataset, I found the 
+balanced accuracy evaluation metric. This evaluation metric best suits the characteristics of the dataset because, as described in the documentation, 
+this metric was designed to deal not only with multiclass classification problems, but also with binary classification problems, as it is our goal to 
+predict whether a message it's spam or ham. In addition, this metric appears to be more weighted and balanced in relation to the target class of the 
+dataset, since calculating accuracy in the same way as the accuracy metric, it now takes into account the frequency and proportion that each label is 
+represented.
+
+As is clear from the output obtained, the evaluation of the model's predictive capacity upon the test set according to this new metric was much worse.
+
+
+
+
+In order to improve the model's ability to classify SMS in spam/ham, I carried out two experiments.
+
+The first one consisted of using a different classification model, the Classification Decision Tree. After fitting this model on the training set and 
+predicting the labels on the test set, this model presented a much better result, according to the balanced accuracy metric, than the Naive Bayes 
+classifier used in task 3. Therefore, beating the baseline Naive Bayes model.
+
+Moving on to the second experiment, this consisted of using another different model, the KNN (K-Nearest Neighbour). After fitting this model on the 
+training set and predicting the labels on the test set, this classifier presented a much better result, according to the balanced accuracy metric, than 
+the Naive Bayes classifier used in task 3. Thus, beating once again the baseline Naive Bayes model. Noteworthy to mention that this model was executed by 
+setting K=3, which means that this model performed its spam/ham classifications in each message based on the 3 messages that were most "close" and 
+"similar" in terms of their features of the message in question. Finally, this model presented results, according to the balanced accuracy metric, very 
+similar to those obtained in the model that used the Decision Tree classifier.
+
+To sum up, these two approaches, based on different models, are greatly improving the predictive capacity, due to the fact that the Naive 
+Bayes baseline is not a robust enough model, and therefore, too simplistic, to deal with the characteristics of the dataset in order to present a good 
+prediction upon the labels on the test set, whereas both the Decision Tree classifier and the KNN classifier constitute more "educated" and complex
+models due to the procedures adopted in their classifying process of messages in spam/ham.
+
+

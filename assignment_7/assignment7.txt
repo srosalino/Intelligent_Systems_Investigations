@@ -1,0 +1,35 @@
+assignment7.txt
+
+
+g.add((s.TenHearts, RDF.type, s.Hearts))
+g.add((s.TenHearts, RDF.type, s.Ten))
+g.add((s.TenHearts, s.value, Literal('10')))
+
+g.add((s.TenSpades, RDF.type, s.Spades))
+g.add((s.TenSpades, RDF.type, s.Ten))
+g.add((s.TenSpades, s.value, Literal('10')))
+
+g.add((s.TenDiamonds, RDF.type, s.Diamonds))
+g.add((s.TenDiamonds, RDF.type, s.Ten))
+g.add((s.TenDiamonds, s.value, Literal('10')))
+
+g.add((s.TenClubs, RDF.type, s.Clubs))
+g.add((s.TenClubs, RDF.type, s.Ten))
+g.add((s.TenClubs, s.value, Literal('10')))
+
+
+
+
+To begin with, in order to better describe what RDF-S entailment is, this procedure will be explained accordingly with the present problem.
+On the top of the notebook, when the 20 cards present in the game of Schnapsen were added to the knowledge graph, (take the Jack of Hearts as an example), 
+they were added using the command "s.JackHearts, RDF.type, s.Hearts". Furthermore, it was specified in the knowledge graph that every card instance 
+belonging to the class Hearts is, at the same time, a card instance belonging to the class Card, by the subclass relation established by the command 
+"s.Hearts, RDFS.subClassOf, s.Card". It goes without saying, that this entailment reasoning applies to every individual card of every suit, hence, 
+the knowledge base represented by the knowledge graph entails all these new implicitly derived statements.
+Onto the queries' results, as the first one does not allow the entailment reasoning to perform, the knowledge inferencing mentioned above does not
+take place, and thus, nothing is returned, since no card instance was directly assigned to be of "RDF.type s.Card", the knowledge base is not capable
+of implicitly derive that every card also belongs to the Card class due to the rdfs:subClassOf specified relation, whereas on the second query, 
+it is now able to recognize the entailments, as the code semantics to do so is now turned on. The query enabled the knowledge base to entail those 
+implicitly classes membership triples to every single card, hence the 20 card output obtained. 
+
+
