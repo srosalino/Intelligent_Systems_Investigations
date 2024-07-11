@@ -1,4 +1,4 @@
-# Vrije Univesiteit Amsterdam Intelligent Systems Program
+# Vrije Universiteit Amsterdam Intelligent Systems Program
 
 
 **Course Objective**
